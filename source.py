@@ -42,6 +42,29 @@ meñique_izq_imgs = [cv.cvtColor(np.array(sample['image']), cv.COLOR_RGB2GRAY) f
 pulgar_der_imgs = [cv.cvtColor(np.array(sample['image']), cv.COLOR_RGB2GRAY) for sample in dataset_pulgar_der['train']]
 pulgar_izq_imgs = [cv.cvtColor(np.array(sample['image']), cv.COLOR_RGB2GRAY) for sample in dataset_pulgar_izq['train']]
 
-cv.imshow("imagen test", anular_der_imgs[0])  # Mostrar el nombre de la imagen
+def preprocesar_imagen(img):
+    img_eq = cv.equalizeHist(img)
+
+    img_resized = cv.resize(img_eq, (128, 128)) 
+
+    return img_resized
+
+cv.imshow("imagen test", preprocesar_imagen(anular_der_imgs[0]))
 cv.waitKey(0)
 cv.destroyAllWindows()
+
+def extraer_caracteristicas_gabor(img, size=21, sigma=4.0, lambd=10.0, gamma=0.5):
+    features = []
+
+    for theta in np.arange(0, np.pi, np.pi / 8):  # 8 orientaciones
+        kernel = cv.getGaborKernel((size, size), sigma, theta, lambd, gamma, 0, ktype=cv.CV_32F)
+        filtered = cv.filter2D(img, cv.CV_32F, kernel)
+
+        # Estadísticas de la imagen filtrada
+        mean_val = np.mean(filtered)
+        std_val = np.std(filtered)
+        features.extend([mean_val, std_val])
+
+    return np.array(features)  # Vector de características
+
+print(extraer_caracteristicas_gabor(anular_der_imgs[0]))
