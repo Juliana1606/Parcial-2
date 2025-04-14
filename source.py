@@ -1,3 +1,5 @@
+import os
+import pywt
 import cv2 as cv
 import numpy as np
 from numpy.linalg import norm
@@ -41,6 +43,8 @@ meñique_der_imgs = [cv.cvtColor(np.array(sample['image']), cv.COLOR_RGB2GRAY) f
 meñique_izq_imgs = [cv.cvtColor(np.array(sample['image']), cv.COLOR_RGB2GRAY) for sample in dataset_meñique_izq['train']]
 pulgar_der_imgs = [cv.cvtColor(np.array(sample['image']), cv.COLOR_RGB2GRAY) for sample in dataset_pulgar_der['train']]
 pulgar_izq_imgs = [cv.cvtColor(np.array(sample['image']), cv.COLOR_RGB2GRAY) for sample in dataset_pulgar_izq['train']]
+
+
 
 cv.imshow("imagen test", anular_der_imgs[0])  # Mostrar el nombre de la imagen
 cv.waitKey(0)
