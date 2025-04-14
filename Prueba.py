@@ -76,17 +76,18 @@ images = [[cv.cvtColor(np.array(sample['image']), cv.COLOR_RGB2GRAY) for sample 
 
 # Mostrar lista de imágenes disponibles
 print("\nIMÁGENES DISPONIBLES EN IMG_PRUEBAS:")
-for idx, name in enumerate(test_images):
-    print(f"{idx}: {name}")
+for idx, img in enumerate(test_images):
+    filename = os.path.basename(img_pruebas['train'][idx]['image'].filename)
+    print(f"{idx}: {filename}")
 
 # Selección de imagen por índice
 img_idx = int(input("\nIngrese el índice de la imagen que desea clasificar: "))
 test_img = test_images[img_idx]
-test_img_name = test_images[img_idx]
+filename = os.path.basename(img_pruebas['train'][img_idx]['image'].filename)
 
 # Mostrar imagen seleccionada
 plt.imshow(test_img, cmap='gray')
-plt.title(f"Imagen seleccionada: {test_img_name}")
+plt.title(f"Imagen seleccionada: {filename}")
 plt.axis('off')
 plt.show()
 
@@ -98,4 +99,4 @@ predicted_label = train_labels[min_idx]
 
 # Resultado
 print(f"\nRESULTADO:")
-print(f"La imagen '{test_img_name}' se clasifica como: {predicted_label}")
+print(f"La imagen '{filename}' se clasifica como: {predicted_label}")
