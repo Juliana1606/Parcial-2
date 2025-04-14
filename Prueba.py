@@ -67,18 +67,22 @@ train_features = np.array(train_features)
 
 # Cargar imágenes de prueba desde la carpeta IMG_PRUEBAS
 test_folder = 'IMG_PRUEBAS'
-test_filenames = sorted([f for f in os.listdir(test_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))])
-test_images = [cv.imread(os.path.join(test_folder, f), cv.IMREAD_GRAYSCALE) for f in test_filenames]
+# Cargar datasets
+img_pruebas = load_dataset(test_folder)
+test_images = [cv.cvtColor(np.array(sample['image']), cv.COLOR_RGB2GRAY) for sample in img_pruebas['train']]
+
+# Convertir imágenes a escala de grises
+images = [[cv.cvtColor(np.array(sample['image']), cv.COLOR_RGB2GRAY) for sample in dataset['train']] for dataset in datasets]
 
 # Mostrar lista de imágenes disponibles
 print("\nIMÁGENES DISPONIBLES EN IMG_PRUEBAS:")
-for idx, name in enumerate(test_filenames):
+for idx, name in enumerate(test_images):
     print(f"{idx}: {name}")
 
 # Selección de imagen por índice
 img_idx = int(input("\nIngrese el índice de la imagen que desea clasificar: "))
 test_img = test_images[img_idx]
-test_img_name = test_filenames[img_idx]
+test_img_name = test_images[img_idx]
 
 # Mostrar imagen seleccionada
 plt.imshow(test_img, cmap='gray')
